@@ -1,0 +1,26 @@
+datasource db {
+  provider = "mysql"
+  url      = env("DB_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Employee {
+  createdAt    DateTime    @default(now())
+  department   Department? @relation(fields: [departmentId], references: [id])
+  departmentId String?
+  id           String      @id @default(cuid())
+  jobTitle     String?
+  name         String?
+  updatedAt    DateTime    @updatedAt
+}
+
+model Department {
+  createdAt DateTime   @default(now())
+  employees Employee[]
+  id        String     @id @default(cuid())
+  name      String?
+  updatedAt DateTime   @updatedAt
+}
